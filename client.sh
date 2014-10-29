@@ -35,7 +35,7 @@ openssl req -new -key /etc/openvpn/${USR}-key.pem -out /etc/openvpn/${USR}-csr.p
 openssl x509 -req -in /etc/openvpn/${USR}-csr.pem -out /etc/openvpn/${USR}-cert.pem -CA /etc/openvpn/ca.pem -CAkey /etc/openvpn/ca-key.pem -days 36525 > /dev/null 2>&1
 
 cat > /etc/openvpn/$USR.ovpn <<EOF
-${USR}
+client
 nobind
 dev tun
 redirect-gateway def1 bypass-dhcp
