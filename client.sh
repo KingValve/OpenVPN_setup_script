@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+#
 ok "❯❯❯ Generating Client Config"
 openssl genrsa -out /etc/openvpn/client-key.pem 2048 > /dev/null 2>&1
 chmod 600 /etc/openvpn/client-key.pem
