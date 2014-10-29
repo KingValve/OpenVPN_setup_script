@@ -52,7 +52,7 @@ chmod 600 /etc/openvpn/server-key.pem
 openssl req -new -key /etc/openvpn/server-key.pem -out /etc/openvpn/server-csr.pem -subj /CN=OpenVPN/ > /dev/null 2>&1
 openssl x509 -req -in /etc/openvpn/server-csr.pem -out /etc/openvpn/server-cert.pem -CA /etc/openvpn/ca.pem -CAkey /etc/openvpn/ca-key.pem -days 365 > /dev/null 2>&1
 
-cat > /etc/openvpn/udp1194.conf <<EOF
+cat > /etc/openvpn/tcp443.conf <<EOF
 server 10.8.0.0 255.255.255.0
 verb 3
 duplicate-cn
@@ -71,8 +71,8 @@ push "dhcp-option DNS 8.8.4.4"
 user nobody
 group nogroup
 
-proto udp
-port 1194
+proto tcp
+port 443
 dev tun1194
 status openvpn-status-1194.log
 EOF
@@ -89,7 +89,7 @@ client
 nobind
 dev tun
 redirect-gateway def1 bypass-dhcp
-remote $SERVER_IP 1194 udp
+remote $SERVER_IP 443 tcp
 comp-lzo yes
 
 <key>
@@ -105,7 +105,7 @@ EOF
 
 # Iptables
 if [[ ! -f /proc/user_beancounters ]]; then
-    N_INT = $(ip a |awk -v sip="$SERVER_IP" '$0 ~ sip { print $7}')
+    N_INT=$(ip a |awk -v sip="$SERVER_IP" '$0 ~ sip { print $7}')
     iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -o $N_INT -j MASQUERADE
 else
     iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -j SNAT --to-source $SERVER_IP
