@@ -73,8 +73,8 @@ group nogroup
 
 proto tcp
 port 443
-dev tun1194
-status openvpn-status-1194.log
+dev tap443
+status openvpn-status-443.log
 EOF
 
 # Generate Client Config
