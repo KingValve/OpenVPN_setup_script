@@ -31,3 +31,9 @@ $(cat /etc/openvpn/$USR\-cert.pem)
 $(cat /etc/openvpn/ca.pem)
 </ca>
 EOF
+
+# Restart Service
+ok "❯❯❯ service openvpn restart"
+service openvpn restart > /dev/null 2>&1
+ok "❯❯❯ Your client config is available at /etc/openvpn/client.ovpn"
+ok "❯❯❯ All done!"
