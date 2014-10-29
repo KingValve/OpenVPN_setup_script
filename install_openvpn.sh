@@ -87,7 +87,7 @@ openssl x509 -req -in /etc/openvpn/client-csr.pem -out /etc/openvpn/client-cert.
 cat > /etc/openvpn/client.ovpn <<EOF
 client
 nobind
-dev tun
+dev tap
 redirect-gateway def1 bypass-dhcp
 remote $SERVER_IP 443 tcp
 comp-lzo yes
