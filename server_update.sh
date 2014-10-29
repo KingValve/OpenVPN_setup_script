@@ -6,6 +6,19 @@ ok() {
     echo -e '\e[32m'$1'\e[m';
 }
 
+die() {
+    echo -e '\e[1;31m'$1'\e[m'; exit 1;
+}
+
+# Sanity check
+if [[ $(id -g) != "0" ]] ; then
+    die "❯❯❯ Script must be run as root."
+fi
+
+if [[  ! -e /dev/net/tun ]] ; then
+    die "❯❯❯ TUN/TAP device is not available."
+fi
+
 # IP Address
 SERVER_IP=$(curl ipv4.icanhazip.com)
 if [[ -z "${SERVER_IP}" ]]; then
@@ -43,3 +56,9 @@ port 443
 dev tun443
 status openvpn-status-443.log
 EOF
+
+# Restart Service
+ok "❯❯❯ service openvpn restart"
+service openvpn restart > /dev/null 2>&1
+ok "❯❯❯ Your client config is available at /etc/openvpn/client.ovpn"
+ok "❯❯❯ All done!"
