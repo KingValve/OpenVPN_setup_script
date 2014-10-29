@@ -73,7 +73,7 @@ group nogroup
 
 proto tcp
 port 443
-dev tap443
+dev tun443
 status openvpn-status-443.log
 EOF
 
@@ -87,7 +87,7 @@ openssl x509 -req -in /etc/openvpn/client-csr.pem -out /etc/openvpn/client-cert.
 cat > /etc/openvpn/client.ovpn <<EOF
 client
 nobind
-dev tap
+dev tap0
 redirect-gateway def1 bypass-dhcp
 remote $SERVER_IP 443 tcp
 comp-lzo yes
